@@ -7,6 +7,7 @@ class DayItem extends StatelessWidget {
   final bool isSelected;
   final Function onTap;
   final Size dayCardSize;
+  final BoxShadow? boxShadow;
   final TextStyle? unselectedDayNumberTextStyle;
   final TextStyle? unselectedDayNameTextStyle;
   final TextStyle? selectedDayNumberTextStyle;
@@ -25,6 +26,7 @@ class DayItem extends StatelessWidget {
     required this.dayCardSize,
     required this.cardBorderRadius,
     required this.spaceBetweenNameAndNumber,
+    this.boxShadow,
     this.isSelected = false,
     this.unselectedDayNumberTextStyle,
     this.selectedDayNumberTextStyle,
@@ -49,6 +51,14 @@ class DayItem extends StatelessWidget {
                 color: unselectedDayBackgroundColor ??
                     Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(cardBorderRadius),
+                boxShadow: [
+                  boxShadow ??
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0.0, 0.0), //(x,y)
+                        blurRadius: 24.0,
+                      ),
+                ],
               ),
         height: dayCardSize.height,
         width: dayCardSize.width,

@@ -32,6 +32,7 @@ class CalendarTimeline extends StatefulWidget {
   final double leftMargin;
   final Color? monthSelectedBackgroundDayColor;
   final Color? monthUnSelectedBackgroundDayColor;
+  final BoxShadow? boxShadow;
   final bool shrink;
   final String? locale;
 
@@ -48,6 +49,7 @@ class CalendarTimeline extends StatefulWidget {
     required this.dayCardSize,
     required this.cardBorderRadius,
     required this.spaceBetweenNameAndNumber,
+    this.boxShadow,
     this.unselectedDayNumberTextStyle,
     this.selectedDayNumberTextStyle,
     this.selectedDayBackgroundColor,
@@ -482,6 +484,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
                   unselectedDayNumberTextStyle:
                       widget.unselectedDayNumberTextStyle,
                   spaceBetweenNameAndNumber: widget.spaceBetweenNameAndNumber,
+                  boxShadow: widget.boxShadow,
                 ),
               ),
               if (index == _days.length - 1)
