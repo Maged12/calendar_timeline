@@ -13,7 +13,9 @@ class DayItem extends StatelessWidget {
   final TextStyle? selectedDayNumberTextStyle;
   final TextStyle? selectedDayNameTextStyle;
   final double cardBorderRadius;
-  final double spaceBetweenNameAndNumber;
+  final double selectedSpaceBetweenNameAndNumber;
+  final double unselectedSpaceBetweenNameAndNumber;
+  final double topAndBottomPadding;
   final Color? selectedDayBackgroundColor;
   final Color? unselectedDayBackgroundColor;
   final bool available;
@@ -25,7 +27,9 @@ class DayItem extends StatelessWidget {
     required this.onTap,
     required this.dayCardSize,
     required this.cardBorderRadius,
-    required this.spaceBetweenNameAndNumber,
+    required this.selectedSpaceBetweenNameAndNumber,
+    required this.unselectedSpaceBetweenNameAndNumber,
+    required this.topAndBottomPadding,
     this.boxShadow,
     this.isSelected = false,
     this.unselectedDayNumberTextStyle,
@@ -64,20 +68,25 @@ class DayItem extends StatelessWidget {
         width: dayCardSize.width,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 6),
+            SizedBox(height: topAndBottomPadding),
             Text(
               shortName,
               style: isSelected
                   ? selectedDayNameTextStyle
                   : unselectedDayNameTextStyle,
             ),
-            SizedBox(height: spaceBetweenNameAndNumber),
+            SizedBox(
+              height: isSelected
+                  ? selectedSpaceBetweenNameAndNumber
+                  : unselectedSpaceBetweenNameAndNumber,
+            ),
             Text(
               dayNumber.toString(),
               style: isSelected
                   ? selectedDayNumberTextStyle
                   : unselectedDayNumberTextStyle,
             ),
+            SizedBox(height: topAndBottomPadding),
           ],
         ),
       ),

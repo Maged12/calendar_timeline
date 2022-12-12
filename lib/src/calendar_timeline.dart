@@ -19,7 +19,9 @@ class CalendarTimeline extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final Size dayCardSize;
-  final double spaceBetweenNameAndNumber;
+  final double selectedSpaceBetweenNameAndNumber;
+  final double unselectedSpaceBetweenNameAndNumber;
+  final double topAndBottomPadding;
   final TextStyle? unselectedDayNumberTextStyle;
   final TextStyle? unselectedDayNameTextStyle;
   final TextStyle? selectedDayNumberTextStyle;
@@ -48,7 +50,9 @@ class CalendarTimeline extends StatefulWidget {
     required this.onDateSelected,
     required this.dayCardSize,
     required this.cardBorderRadius,
-    required this.spaceBetweenNameAndNumber,
+    required this.selectedSpaceBetweenNameAndNumber,
+    required this.unselectedSpaceBetweenNameAndNumber,
+    required this.topAndBottomPadding,
     this.boxShadow,
     this.unselectedDayNumberTextStyle,
     this.selectedDayNumberTextStyle,
@@ -483,7 +487,11 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
                   unselectedDayNameTextStyle: widget.unselectedDayNameTextStyle,
                   unselectedDayNumberTextStyle:
                       widget.unselectedDayNumberTextStyle,
-                  spaceBetweenNameAndNumber: widget.spaceBetweenNameAndNumber,
+                  selectedSpaceBetweenNameAndNumber:
+                      widget.selectedSpaceBetweenNameAndNumber,
+                  unselectedSpaceBetweenNameAndNumber:
+                      widget.unselectedSpaceBetweenNameAndNumber,
+                  topAndBottomPadding: widget.topAndBottomPadding,
                   boxShadow: widget.boxShadow,
                 ),
               ),
