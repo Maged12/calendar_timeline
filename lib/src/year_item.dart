@@ -11,7 +11,6 @@ class YearItem extends StatelessWidget {
   final bool small;
   final bool shrink;
 
-
   YearItem({
     required this.name,
     required this.onTap,
@@ -27,17 +26,21 @@ class YearItem extends StatelessWidget {
       onTap: small ? null : onTap as void Function()?,
       child: Container(
         decoration: isSelected || small
-          ? BoxDecoration(
-          border: Border.all(color: color ?? Colors.black87, width: 1),
-          borderRadius: BorderRadius.circular(4),
-        )
-          : null,
+            ? BoxDecoration(
+                border: Border.all(color: color ?? Colors.black87, width: 1),
+                borderRadius: BorderRadius.circular(4),
+              )
+            : null,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
           child: Text(
             name.toUpperCase(),
             style: TextStyle(
-              fontSize: shrink ? 9 : small ? 12 : 20,
+              fontSize: shrink
+                  ? 9
+                  : small
+                      ? 12
+                      : 20,
               color: color ?? Colors.black87,
               fontWeight: FontWeight.bold,
             ),

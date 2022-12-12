@@ -18,15 +18,20 @@ class CalendarTimeline extends StatefulWidget {
   final DateTime initialDate;
   final DateTime firstDate;
   final DateTime lastDate;
+  final Size dayCardSize;
+  final double spaceBetweenNameAndNumber;
+  final TextStyle? unselectedDayNumberTextStyle;
+  final TextStyle? unselectedDayNameTextStyle;
+  final TextStyle? selectedDayNumberTextStyle;
+  final TextStyle? selectedDayNameTextStyle;
+  final double cardBorderRadius;
+  final Color? selectedDayBackgroundColor;
+  final Color? unselectedDayBackgroundColor;
   final SelectableDayPredicate? selectableDayPredicate;
   final OnDateSelected onDateSelected;
   final double leftMargin;
-  final Color? dayColor;
-  final Color? activeDayColor;
-  final Color? activeBackgroundDayColor;
-  final Color? monthColor;
-  final Color? dotsColor;
-  final Color? dayNameColor;
+  final Color? monthSelectedBackgroundDayColor;
+  final Color? monthUnSelectedBackgroundDayColor;
   final bool shrink;
   final String? locale;
 
@@ -40,14 +45,19 @@ class CalendarTimeline extends StatefulWidget {
     required this.firstDate,
     required this.lastDate,
     required this.onDateSelected,
+    required this.dayCardSize,
+    required this.cardBorderRadius,
+    required this.spaceBetweenNameAndNumber,
+    this.unselectedDayNumberTextStyle,
+    this.selectedDayNumberTextStyle,
+    this.selectedDayBackgroundColor,
+    this.unselectedDayBackgroundColor,
+    this.unselectedDayNameTextStyle,
+    this.selectedDayNameTextStyle,
     this.selectableDayPredicate,
     this.leftMargin = 0,
-    this.dayColor,
-    this.activeDayColor,
-    this.activeBackgroundDayColor,
-    this.monthColor,
-    this.dotsColor,
-    this.dayNameColor,
+    this.monthSelectedBackgroundDayColor,
+    this.monthUnSelectedBackgroundDayColor,
     this.shrink = false,
     this.locale,
     this.showYears = false,
@@ -279,7 +289,8 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
     widget.onDateSelected(_selectedDate);
   }
 
-  bool _isSelectedDay(int index) => _monthSelectedIndex != null &&
+  bool _isSelectedDay(int index) =>
+      _monthSelectedIndex != null &&
       (index == _daySelectedIndex || index == _indexOfDay(_selectedDate));
 
   int _indexOfDay(DateTime date) {
@@ -337,16 +348,14 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
                   isSelected: _yearSelectedIndex == index,
                   name: yearName,
                   onTap: () => _onSelectYear(index),
-                  color: widget.monthColor,
+                  color: widget.monthUnSelectedBackgroundDayColor,
                   small: false,
                   shrink: widget.shrink,
                 ),
                 if (index == _years.length - 1)
                   // Last element to take space to do scroll to left side
                   SizedBox(
-                    width: MediaQuery.of(context).size.width -
-                        widget.leftMargin -
-                        (yearName.length * 10),
+                    width: widget.leftMargin,
                   )
               ],
             ),
@@ -361,56 +370,68 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
   /// months in the calendar and the small version of [YearItem] for each year in between
   Widget _buildMonthList() {
     return Container(
-      height: 30,
-      child: ScrollablePositionedList.builder(
-        initialScrollIndex: _monthSelectedIndex ?? 0,
-        initialAlignment: _scrollAlignment,
-        itemScrollController: _controllerMonth,
-        padding: EdgeInsets.only(left: widget.leftMargin),
-        scrollDirection: Axis.horizontal,
-        itemCount: _months.length,
-        itemBuilder: (BuildContext context, int index) {
-          final currentDate = _months[index];
-          final monthName = DateFormat.MMMM(_locale).format(currentDate);
+      height: 40,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: ScrollablePositionedList.builder(
+              initialScrollIndex: _monthSelectedIndex ?? 0,
+              initialAlignment: _scrollAlignment,
+              itemScrollController: _controllerMonth,
+              padding: EdgeInsets.only(left: widget.leftMargin),
+              scrollDirection: Axis.horizontal,
+              itemCount: _months.length,
+              itemBuilder: (BuildContext context, int index) {
+                final currentDate = _months[index];
+                final monthName =
+                    DateFormat("MMMM", _locale).format(currentDate);
 
-          return Padding(
-            padding: const EdgeInsets.only(right: 12.0, left: 4.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                if (widget.firstDate.year != currentDate.year &&
-                    currentDate.month == 1 &&
-                    !widget.showYears)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: YearItem(
-                      name: DateFormat.y(_locale).format(currentDate),
-                      color: widget.monthColor,
-                      onTap: () {},
-                      shrink: widget.shrink,
-                    ),
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12.0, left: 4.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      if (widget.firstDate.year != currentDate.year &&
+                          currentDate.month == 1 &&
+                          !widget.showYears)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: YearItem(
+                            name: DateFormat.y(_locale).format(currentDate),
+                            color: widget.monthUnSelectedBackgroundDayColor,
+                            onTap: () {},
+                            shrink: widget.shrink,
+                          ),
+                        ),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          MonthItem(
+                            isSelected: _monthSelectedIndex == index,
+                            name: monthName,
+                            onTap: () => _onSelectMonth(index),
+                            color: widget.monthUnSelectedBackgroundDayColor,
+                            shrink: widget.shrink,
+                            activeColor: widget.monthSelectedBackgroundDayColor,
+                          ),
+                        ],
+                      ),
+                      // if (index == _months.length - 1)
+                      //   // Last element to take space to do scroll to left side
+                      //   SizedBox(
+                      //     width: MediaQuery.of(context).size.width * 0.1,
+                      //   )
+                    ],
                   ),
-                MonthItem(
-                  isSelected: _monthSelectedIndex == index,
-                  name: monthName,
-                  onTap: () => _onSelectMonth(index),
-                  color: widget.monthColor,
-                  shrink: widget.shrink,
-                  activeColor: widget.activeBackgroundDayColor,
-                ),
-                if (index == _months.length - 1)
-                  // Last element to take space to do scroll to left side
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width -
-                        widget.leftMargin -
-                        (monthName.length * 10),
-                  )
-              ],
+                );
+              },
             ),
-          );
-        },
+          ),
+          Divider(color: widget.monthUnSelectedBackgroundDayColor),
+        ],
       ),
     );
   }
@@ -421,7 +442,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
   Widget _buildDayList() {
     return SizedBox(
       key: Key('ScrollableDayList'),
-      height: 64,
+      height: 70,
       child: ScrollablePositionedList.builder(
         itemScrollController: _controllerDay,
         initialScrollIndex: _daySelectedIndex ?? 0,
@@ -435,29 +456,37 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
               DateFormat.E(_locale).format(currentDay).capitalize();
           return Row(
             children: <Widget>[
-              DayItem(
-                isSelected: _isSelectedDay(index),
-                dayNumber: currentDay.day,
-                shortName: shortName.length > 3
-                    ? shortName.substring(0, 3)
-                    : shortName,
-                onTap: () => _onSelectDay(index),
-                available: widget.selectableDayPredicate == null
-                    ? true
-                    : widget.selectableDayPredicate!(currentDay),
-                dayColor: widget.dayColor,
-                activeDayColor: widget.activeDayColor,
-                activeDayBackgroundColor: widget.activeBackgroundDayColor,
-                dotsColor: widget.dotsColor,
-                dayNameColor: widget.dayNameColor,
-                shrink: widget.shrink,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 5,
+                ),
+                child: DayItem(
+                  isSelected: _isSelectedDay(index),
+                  dayNumber: currentDay.day,
+                  shortName: shortName.length > 3
+                      ? shortName.substring(0, 3)
+                      : shortName,
+                  onTap: () => _onSelectDay(index),
+                  available: widget.selectableDayPredicate == null
+                      ? true
+                      : widget.selectableDayPredicate!(currentDay),
+                  dayCardSize: widget.dayCardSize,
+                  cardBorderRadius: widget.cardBorderRadius,
+                  selectedDayBackgroundColor: widget.selectedDayBackgroundColor,
+                  selectedDayNameTextStyle: widget.selectedDayNameTextStyle,
+                  selectedDayNumberTextStyle: widget.selectedDayNumberTextStyle,
+                  unselectedDayBackgroundColor:
+                      widget.unselectedDayBackgroundColor,
+                  unselectedDayNameTextStyle: widget.unselectedDayNameTextStyle,
+                  unselectedDayNumberTextStyle:
+                      widget.unselectedDayNumberTextStyle,
+                  spaceBetweenNameAndNumber: widget.spaceBetweenNameAndNumber,
+                ),
               ),
               if (index == _days.length - 1)
                 // Last element to take space to do scroll to left side
-                SizedBox(
-                    width: MediaQuery.of(context).size.width -
-                        widget.leftMargin -
-                        65)
+                SizedBox(width: widget.leftMargin),
             ],
           );
         },
