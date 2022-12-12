@@ -22,6 +22,7 @@ class CalendarTimeline extends StatefulWidget {
   final double selectedSpaceBetweenNameAndNumber;
   final double unselectedSpaceBetweenNameAndNumber;
   final double topAndBottomPadding;
+  final double dayListHeight;
   final TextStyle? unselectedDayNumberTextStyle;
   final TextStyle? unselectedDayNameTextStyle;
   final TextStyle? selectedDayNumberTextStyle;
@@ -53,6 +54,7 @@ class CalendarTimeline extends StatefulWidget {
     required this.selectedSpaceBetweenNameAndNumber,
     required this.unselectedSpaceBetweenNameAndNumber,
     required this.topAndBottomPadding,
+    required this.dayListHeight,
     this.boxShadow,
     this.unselectedDayNumberTextStyle,
     this.selectedDayNumberTextStyle,
@@ -448,7 +450,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
   Widget _buildDayList() {
     return SizedBox(
       key: Key('ScrollableDayList'),
-      height: 70,
+      height: widget.dayListHeight,
       child: ScrollablePositionedList.builder(
         itemScrollController: _controllerDay,
         initialScrollIndex: _daySelectedIndex ?? 0,

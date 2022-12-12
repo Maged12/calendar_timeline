@@ -56,41 +56,48 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             CalendarTimeline(
-              showYears: false,
-              initialDate: _selectedDate,
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(Duration(days: 365 * 4)),
-              onDateSelected: (date) => setState(() => _selectedDate = date),
+              dayListHeight: 75,
+              initialDate: DateTime(2020, 4, 20),
+              firstDate: DateTime(2019, 1, 15),
+              lastDate: DateTime(2020, 11, 20),
+              onDateSelected: (date) => print(date),
               leftMargin: 20,
-              spaceBetweenNameAndNumber: 5,
+              selectedSpaceBetweenNameAndNumber: 8,
+              unselectedSpaceBetweenNameAndNumber: 8,
+              topAndBottomPadding: 8,
               selectableDayPredicate: (date) => date.day != 23,
               locale: 'en',
-              dayCardSize: Size(48, 60),
+              dayCardSize: const Size(48, 60),
               cardBorderRadius: 16.0,
-              unselectedDayNumberTextStyle: TextStyle(
+              unselectedDayNumberTextStyle: const TextStyle(
                 color: Color(0xff191F5B),
-                fontSize: 15,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
-              unselectedDayNameTextStyle: TextStyle(
+              unselectedDayNameTextStyle: const TextStyle(
                 color: Color(0xffC7C7C7),
-                fontSize: 15,
+                fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
               unselectedDayBackgroundColor: Colors.white,
-              selectedDayNumberTextStyle: TextStyle(
+              boxShadow: const BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0.0, 1.0), //(x,y)
+                blurRadius: 3.0,
+              ),
+              selectedDayNumberTextStyle: const TextStyle(
                 color: Colors.white,
-                fontSize: 15,
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
-              selectedDayNameTextStyle: TextStyle(
+              selectedDayNameTextStyle: const TextStyle(
                 color: Colors.white,
-                fontSize: 15,
+                fontSize: 13,
                 fontWeight: FontWeight.w400,
               ),
-              selectedDayBackgroundColor: Color(0xffFFB06A),
-              monthSelectedBackgroundDayColor: Color(0xff191F5B),
-              monthUnSelectedBackgroundDayColor: Color(0xffC7C7C7),
+              selectedDayBackgroundColor: const Color(0xffFFB06A),
+              monthSelectedBackgroundDayColor: const Color(0xff191F5B),
+              monthUnSelectedBackgroundDayColor: const Color(0xffC7C7C7),
             ),
             SizedBox(height: 20),
             Padding(
