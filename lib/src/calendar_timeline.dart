@@ -33,8 +33,8 @@ class CalendarTimeline extends StatefulWidget {
   final SelectableDayPredicate? selectableDayPredicate;
   final OnDateSelected onDateSelected;
   final double leftMargin;
-  final Color? monthSelectedBackgroundDayColor;
-  final Color? monthUnSelectedBackgroundDayColor;
+  final TextStyle selectedMonthTextStyle;
+  final TextStyle unselectedMonthTextStyle;
   final BoxShadow? boxShadow;
   final bool shrink;
   final String? locale;
@@ -64,8 +64,8 @@ class CalendarTimeline extends StatefulWidget {
     this.selectedDayNameTextStyle,
     this.selectableDayPredicate,
     this.leftMargin = 0,
-    this.monthSelectedBackgroundDayColor,
-    this.monthUnSelectedBackgroundDayColor,
+    required this.selectedMonthTextStyle,
+    required this.unselectedMonthTextStyle,
     this.shrink = false,
     this.locale,
     this.showYears = false,
@@ -356,7 +356,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
                   isSelected: _yearSelectedIndex == index,
                   name: yearName,
                   onTap: () => _onSelectYear(index),
-                  color: widget.monthUnSelectedBackgroundDayColor,
+                  color: widget.unselectedMonthTextStyle.color,
                   small: false,
                   shrink: widget.shrink,
                 ),
@@ -409,7 +409,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
                           padding: const EdgeInsets.only(right: 10),
                           child: YearItem(
                             name: DateFormat.y(_locale).format(currentDate),
-                            color: widget.monthUnSelectedBackgroundDayColor,
+                            color: widget.unselectedMonthTextStyle.color,
                             onTap: () {},
                             shrink: widget.shrink,
                           ),
@@ -421,9 +421,11 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
                             isSelected: _monthSelectedIndex == index,
                             name: monthName,
                             onTap: () => _onSelectMonth(index),
-                            color: widget.monthUnSelectedBackgroundDayColor,
+                            selectedMonthTextStyle:
+                                widget.selectedMonthTextStyle,
                             shrink: widget.shrink,
-                            activeColor: widget.monthSelectedBackgroundDayColor,
+                            unselectedMonthTextStyle:
+                                widget.unselectedMonthTextStyle,
                           ),
                         ],
                       ),
@@ -438,7 +440,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
               },
             ),
           ),
-          Divider(color: widget.monthUnSelectedBackgroundDayColor),
+          Divider(color: widget.unselectedMonthTextStyle.color),
         ],
       ),
     );

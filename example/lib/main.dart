@@ -96,8 +96,16 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.w400,
               ),
               selectedDayBackgroundColor: const Color(0xffFFB06A),
-              monthSelectedBackgroundDayColor: const Color(0xff191F5B),
-              monthUnSelectedBackgroundDayColor: const Color(0xffC7C7C7),
+              selectedMonthTextStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              unselectedMonthTextStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             SizedBox(height: 20),
             Padding(
