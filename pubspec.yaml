@@ -5,13 +5,13 @@ version: 1.0.5
 homepage: https://github.com/ikicodedev/calendar_timeline
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.17.0
-  scrollable_positioned_list: ^0.3.2
+  intl: ^0.18.1
+  scrollable_positioned_list: ^0.3.8
 
 dev_dependencies:
   flutter_test:
